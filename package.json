@@ -1,0 +1,24 @@
+{
+  "name": "enterpair-api",
+  "version": "1.0.0",
+  "description": "enterpair-api: find developers in your location to work with on projects and attend events together.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emmaodia/enterpair-api.git"
+  },
+  "author": "Emmanuel Oaikhenan",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/emmaodia/enterpair-api/issues"
+  },
+  "homepage": "https://github.com/emmaodia/enterpair-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  }
+}
