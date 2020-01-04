@@ -1,9 +1,13 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
+app.get('/', (req, res) => res.json({msg: "Hello ${req.user}!"}))
 
+//Router Paths
+const userRoute = require('./routes/user');
 
-app.get('/', (req, res) => res.json({msg: "Hello!"}))
+//Endpoints
+app.use('/api/v1/user', userRoute);
 
 //Database Configuration
 const mongoose = require("mongoose");
