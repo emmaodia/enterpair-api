@@ -4,6 +4,7 @@ const User = require('../models/user');
 const mongoose = require('mongoose');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
+const checkAuth = require('connect-ensure-login')
 require('dotenv').config();
 
 
@@ -37,7 +38,7 @@ passport.use(new Strategy({
         done(null, user); //If User already exists login as stated on line 93
       } else { //else create a new User
         user = new User({
-          facebookId: profile.id, //pass in the id and displayName params from Facebook
+          facebook_id: profile.id, //pass in the id and displayName params from Facebook
           name: profile.displayName
         });
         if (typeof profile.emails != 'undefined' && profile.emails.length > 0) //Check if a User signed up with email and add it to the DB
@@ -61,6 +62,16 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 // Define routes.
+
+router.get('/login', (req, res) => { res.json({msg: "login failed"}); });
+
+router.get('/login/facebook', passport.authenticate('facebook'));
+
+router.get('/return', 
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/api/v1/user/home');
+});
 
 //GET ALL Users
 router.get('/home', (req, res) => {
@@ -91,21 +102,25 @@ router.get('/home', (req, res) => {
  });
 
 //GET One User
-
-router.get('/login', (req, res) => { res.json({msg: "login failed"}); });
-
-router.get('/login/facebook', passport.authenticate('facebook'));
-
-router.get('/return', 
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('/api/v1/user/home');
+router.get('/:userId', checkAuth.ensureLoggedIn('/api/v1/user/login/facebook'),(req, res) => {
+  User.findById(req.params.userId)
+  .exec()
+  .then(user => {
+    if(!user) {
+      return res.status(404).json({
+        message : "User not found!"
+      })
+    }
+    res.status(200).json({
+      user: user
+    })
+  })
+  .catch(error => {
+    res.status(500).json({
+      error: error
+    });
+  });
 });
 
-router.get('/profile',
-  require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.json(`Profile ${ req.user }`);
-});
 
 module.exports = router;
