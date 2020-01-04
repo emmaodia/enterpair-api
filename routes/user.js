@@ -76,7 +76,7 @@ router.get('/return',
 //GET ALL Users
 router.get('/home', (req, res) => {
   User.find()
-  .select("_id name facebook_id email")
+  .select("_id name facebook_id email location")
   .exec()
   .then(results => {
     responses = {
@@ -86,7 +86,8 @@ router.get('/home', (req, res) => {
           _id: result._id,
           name: result.name,
           facebook_id: result.facebook_id,
-          email: result.email
+          email: result.email,
+          location: result.location
         }
       })
     }
@@ -102,7 +103,7 @@ router.get('/home', (req, res) => {
  });
 
 //GET One User
-router.get('/:userId', checkAuth.ensureLoggedIn('/api/v1/user/login/facebook'),(req, res) => {
+router.get('/:userId', (req, res) => {
   User.findById(req.params.userId)
   .exec()
   .then(user => {
@@ -122,5 +123,24 @@ router.get('/:userId', checkAuth.ensureLoggedIn('/api/v1/user/login/facebook'),(
   });
 });
 
+//checkAuth.ensureLoggedIn('/api/v1/user/login/facebook'),
+
+//Update a User Location
+router.patch('/:userId', (req, res) => {
+  User.findOneAndUpdate({ _id:req.params.userId }, req.body)
+  .exec()
+  .then(user => {
+    res.status(200).json({
+      message: "User INFO Successfully updated!",
+      user: user
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({
+      error: error
+    })
+  });
+})
 
 module.exports = router;
