@@ -5,7 +5,10 @@ const userSchema = mongoose.Schema({
 	name : String,
     facebook_id : String,
     email: String,
-    location: String
+    location: String,
+    //pairRequest items
+    post: String,
+    body: String
 });
 
 userSchema.set('timestamps', true);
