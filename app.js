@@ -1,13 +1,19 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get('/', (req, res) => res.json({msg: "Hello ${req.user}!"}))
 
 //Router Paths
 const userRoute = require('./routes/user');
+const pairRequestRoute = require('./routes/pairRequest');
 
 //Endpoints
 app.use('/api/v1/user', userRoute);
+app.use('/api/v1/pairRequest', pairRequestRoute);
 
 //Database Configuration
 const mongoose = require("mongoose");

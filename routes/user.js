@@ -87,7 +87,11 @@ router.get('/home', (req, res) => {
           name: result.name,
           facebook_id: result.facebook_id,
           email: result.email,
-          location: result.location
+          location: result.location,
+          request: {
+            type: "GET",
+            url: `http://localhost:3000/api/v1/user/${result._id}`
+          }
         }
       })
     }
@@ -113,7 +117,12 @@ router.get('/:userId', (req, res) => {
       })
     }
     res.status(200).json({
-      user: user
+      user: user,
+      request: {
+        type: "GET",
+        //Route to create a  pairRequest
+        url: `http://localhost:3000/api/v1/pairRequest/${user._id}`
+      }
     })
   })
   .catch(error => {

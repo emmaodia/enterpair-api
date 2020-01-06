@@ -7,8 +7,9 @@ const userSchema = mongoose.Schema({
     email: String,
     location: String,
     //pairRequest items
-    post: String,
-    body: String
+    pairRequest : [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'PairRequest'
+    }]
 });
 
 userSchema.set('timestamps', true);
