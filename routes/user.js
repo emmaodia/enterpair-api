@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require('../models/user');
+const PairRequest = require('../models/pairRequest');
 const mongoose = require('mongoose');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
@@ -77,6 +78,7 @@ router.get('/return',
 router.get('/home', (req, res) => {
   User.find()
   .select("_id name facebook_id email location")
+  .populate("pairRequest")
   .exec()
   .then(results => {
     responses = {
@@ -88,6 +90,7 @@ router.get('/home', (req, res) => {
           facebook_id: result.facebook_id,
           email: result.email,
           location: result.location,
+          pairRequest: result.pairRequest,
           request: {
             type: "GET",
             url: `http://localhost:3000/api/v1/user/${result._id}`
@@ -116,6 +119,7 @@ router.get('/:userId', (req, res) => {
         message : "User not found!"
       })
     }
+    console.log(user);
     res.status(200).json({
       user: user,
       request: {

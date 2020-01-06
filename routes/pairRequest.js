@@ -31,6 +31,7 @@ PairRequest.findById(req.params.quoteId)
 router.get('/', (req, res, next) => {
     PairRequest.find()
     .select("_id title body")
+    .populate("user", "name")
     .exec()
     .then(results => {
       responses = {
@@ -39,7 +40,8 @@ router.get('/', (req, res, next) => {
           return {
             _id: result._id,
             title: result.title,
-            body: result.body
+            body: result.body,
+            user: result.user
           }
         })
       }
@@ -69,21 +71,43 @@ router.post('/:userId', (req, res, next) => {
         body: req.body.body
       });
       return  pairRequest.save()
-      .then(result => {
+      .then(user1 => {
         console.log(user);
-        res.status(201).json({
-          message: "Pair Request successfully created!",
-          pairRequest: {
-            pairRequestId: result._id,
-            title: result.title,
-            body: result.body,
-            request: {
-              type: "GET",
-              url: `http://localhost:3000/api/v1/${user._id}/pairRequest/${result._id}`
+      	user.pairRequest.push(user1);
+      	user.save()
+        .then( result => {
+          res.status(201).json({
+            message: "Pair Request successfully created!",
+            pairRequest: {
+              pairRequestId: result._id,
+              title: result.title,
+              body: result.body,
+              request: {
+                type: "GET",
+                url: `http://localhost:3000/api/v1/${user._id}/pairRequest/${result._id}`
+              }
             }
-          }
+          })
+          console.log(pairRequest);
+          console.log(user._id);
         })
+
       })
+      // .then(result => {
+      //   console.log(user);
+      //   res.status(201).json({
+      //     message: "Pair Request successfully created!",
+      //     pairRequest: {
+      //       pairRequestId: result._id,
+      //       title: result.title,
+      //       body: result.body,
+      //       request: {
+      //         type: "GET",
+      //         url: `http://localhost:3000/api/v1/${user._id}/pairRequest/${result._id}`
+      //       }
+      //     }
+      //   })
+      // })
     })
     .catch(error => {
       console.log(error);
