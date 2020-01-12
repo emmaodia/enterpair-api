@@ -109,6 +109,31 @@ router.get('/home', (req, res) => {
   });
  });
 
+ //GET Users by location
+ router.get('/search', (req, res) => {
+   User.find()
+   .select('name location')
+   .exec()
+   .then(results => {
+     if (typeof req.query.location != 'undefined'){
+       response = results.filter(user => {
+         if(user.location === req.params.location){
+           return user
+         }else{
+           response = user;
+         }
+
+         res.status(200).json(response)
+       })
+     }
+   })
+   .catch(error => {
+    res.status(500).json({
+      error: error
+    });
+  })
+ })
+
 //GET One User
 router.get('/:userId', (req, res) => {
   User.findById(req.params.userId)
