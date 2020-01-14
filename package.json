@@ -4,7 +4,8 @@
   "description": "enterpair-api: find developers in your location to work with on projects and attend events together.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "test" : "mocha"
   },
   "repository": {
     "type": "git",
@@ -26,5 +27,8 @@
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^7.0.0"
   }
 }
