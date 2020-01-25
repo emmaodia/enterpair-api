@@ -99,18 +99,16 @@ router.get('/home', (req, res) => {
       })
     }
     res.status(200).json(responses);
-    console.log(responses);
   })
-
-  .catch(error => {
+  .catch(err => {
     res.status(500).json({
-      error: error
+      error: err
     });
   });
  });
 
  //GET Users by location
- router.get('/search', (req, res) => {
+ router.get('/search', (req, res, next) => {
    User.find()
    .select('name location')
    .exec()
@@ -135,7 +133,7 @@ router.get('/home', (req, res) => {
  })
 
 //GET One User
-router.get('/:userId', (req, res) => {
+router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId)
   .exec()
   .then(user => {
