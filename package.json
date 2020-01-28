@@ -4,7 +4,8 @@
   "description": "enterpair-api: find developers in your location to work with on projects and attend events together.",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "devStart" : "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
     "express": "^4.17.1",
     "mongodb": "^3.4.1",
     "mongoose": "^5.8.4",
+    
+  },
+  "devDependencies": {
     "nodemon": "^2.0.2"
   }
 }

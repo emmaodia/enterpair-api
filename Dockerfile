@@ -1,15 +1,13 @@
-FROM node:8
+FROM node
 
-# Create app directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /app
+COPY package.json .
+
 RUN npm install
 
-# Copy app source code
-COPY . /app
+COPY . .
 
-#Expose port and start application
-CMD [ "npm", "start" ]
-EXPOSE 3000
+EXPOSE 5000
+
+CMD ["node" "app.js"]
