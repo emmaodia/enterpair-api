@@ -1,13 +1,18 @@
 FROM node
 
-WORKDIR /usr/src/app
+# Change working directory
+WORKDIR /app
 
+# Copy source code
 COPY package.json .
 
+# Install dependencies
 RUN npm install
 
 COPY . .
 
-EXPOSE 5000
+# Expose API port to the outside
+EXPOSE 3000
 
-CMD ["node" "app.js"]
+# Launch application
+CMD ["npm","start"]
