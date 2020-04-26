@@ -110,28 +110,26 @@ router.get('/home', (req, res) => {
  });
 
  //GET Users by location
- router.get('/search', (req, res) => {
-   User.find()
-   .select('name location')
-   .exec()
-   .then(results => {
-     if (typeof req.query.location != 'undefined'){
-       response = results.filter(user => {
-         if(user.location === req.params.location){
-           return user
-         }else{
-           response = user;
-         }
+ router.get('/search', async(req, res) => {
+  try {
+    const users = await User.find();
+    console.log(req.query)
 
-         res.status(200).json(response)
-       })
-     }
-   })
-   .catch(error => {
-    res.status(500).json({
-      error: error
-    });
-  })
+    let response = [];
+
+    if(typeof req.query.name != 'undefined' ){
+        response = users.filter( user => {
+            if(user.name.toLowerCase() === req.query.name){
+                return response;
+            }
+        });
+    }
+    console.log(response)
+    res.status(200).json(response)
+  } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+  }
  })
 
 //GET One User
