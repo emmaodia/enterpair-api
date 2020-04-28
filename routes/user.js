@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require('../models/user');
 const PairRequest = require('../models/pairRequest');
-const mongoose = require('mongoose');
-var passport = require('passport');
-var Strategy = require('passport-facebook').Strategy;
+const passport = require('passport');
+const Strategy = require('passport-facebook').Strategy;
 const checkAuth = require('connect-ensure-login')
 require('dotenv').config();
 
