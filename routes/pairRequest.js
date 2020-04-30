@@ -6,8 +6,8 @@ const mongoose = require('mongoose');
 //const checkAuth = require('connect-ensure-login')
 
 //Route to get one PairRequest
-router.get('/:quoteId', (req, res, next) => {
-PairRequest.findById(req.params.quoteId)
+router.get('/:prdID', (req, res, next) => {
+PairRequest.findById(req.params.prdID)
 .exec()
 .then(pairRequest => {
   if(!pairRequest) {
@@ -27,7 +27,7 @@ PairRequest.findById(req.params.quoteId)
 });
 
 
-//Route to get all Quotes
+//Route to get all Pair Requests
 router.get('/', (req, res, next) => {
     PairRequest.find()
     .select("_id title body")
@@ -137,8 +137,8 @@ router.patch('/:pairRequestId', (req, res) => {
 })
 
 //Route to delete PairRequest
-router.delete('/:quoteId', (req, res, next) => {
-  const id = req.params.quoteId;
+router.delete('/:prdID', (req, res, next) => {
+  const id = req.params.prdID;
 
   PairRequest.remove({ _id : id })
         .exec()
