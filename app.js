@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => res.json({msg: "Hello ${req.user}!"}))
+app.get('/', (req, res) => res.json({msg: `Hello ${req.user}!`}))
 
 //Router Paths
 const userRoute = require('./routes/user');
