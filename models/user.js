@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema({
     pairRequest : [{
         type: mongoose.Schema.Types.ObjectId, ref: 'PairRequest'
     }]
+    //pr: [{ id: String, body: String, title: String}]
 });
 
 userSchema.set('timestamps', true);
